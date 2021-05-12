@@ -39,7 +39,7 @@
                                 <th>Data Dukung Calon ZI</th>
                                 <th>Kelengkapan</th>
                                 <th>Tingkat Kelengkapan</th>
-                                <th style="width: 150px">Action</th>
+                                <th class="text-center" style="width: 100px">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,8 +77,8 @@
                                     <td></td>
                                     <td class="text-right" style="width: 40px;"> {{ range('a', 'z')[$subUrut++] }}. </td>
                                     <td> {{ $row->judul_penilaian }} </td>
-                                    <td> {{ $row->kelengkapan }} </td>
-                                    <td> {{ $row->tingkat_kelengkapan }} </td>
+                                    <td> {{ $kelengkapan[$row->kelengkapan] ?? '' }} </td>
+                                    <td> {{ $tingkat[$row->tingkat_kelengkapan] ?? '' }} </td>
                                     <td>
                                         <!-- @can(App\Models\Role::PERMISSION_SHOW_PENILAIAN)<a href="{{ route('penilaian.show', $row->id) }}" class="btn btn-sm btn-primary" title="Lihat Penilaian"><i class="far fa-eye"></i></a>@endcan -->
                                         <!-- @can(App\Models\Role::PERMISSION_EDIT_PENILAIAN)<a href="{{ route('penilaian.item.edit', [ 'penilaian' => $row->satker_penilaian_id, 'item' => $row->id ]) }}" data-id="{{ $row->id }}" data-judul="{{ $row->judul_penilaian }}" data-kelengkapan="{{ $row->kelengkapan }}" class="btn btn-sm btn-success" title="Edit Penilaian"><i class="far fa-edit"></i></a>@endcan -->
@@ -232,8 +232,8 @@
                 var form = modal.find('.modal-content form');
 
                 form.attr('action', urlAction);
-                modal.find('.modal-body input#kelengkapan').val(kelengkapan);
-                modal.find('.modal-body input#tingkat').val(tingkat);
+                modal.find('.modal-body select#status_kelengkapan').val(kelengkapan);
+                modal.find('.modal-body select#status_tingkat').val(tingkat);
             })
         });
     </script>
