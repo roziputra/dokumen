@@ -18,7 +18,7 @@
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-md btn-primary">Submit</button>
-                <a href="{{ route('user.index') }}" class="btn btn-md btn-default">Batal</a>
+                <a href="{{ route('penilaian.index') }}" class="btn btn-md btn-default">Batal</a>
             </div>
             </form>
             </div>

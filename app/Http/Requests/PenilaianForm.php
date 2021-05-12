@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Penilaian;
+use Illuminate\Validation\Rule;
 
 class PenilaianForm extends FormRequest
 {
@@ -25,7 +27,7 @@ class PenilaianForm extends FormRequest
     {
         $route = $this->route();
 
-        if ($route->named('penilaian.item.*')) {
+        if ($route->named('penilaian.item.add')) {
             return [
                 'grup_penilaian' => [
                     'required',
@@ -41,6 +43,21 @@ class PenilaianForm extends FormRequest
                     'required',
                     'string',
                     'max:255',
+                ],
+            ];
+        }
+
+        if ($route->named('penilaian.status.update')) {
+            return [
+                'kelengkapan' => [
+                    'required',
+                    'string',
+                    Rule::in(array_keys(Penilaian::getAllKelengkapan())),
+                ],
+                'tingkat_kelengkapan' => [
+                    'nullable',
+                    'string',
+                    Rule::in(array_keys(Penilaian::getAllTingkatKelengkapan())),
                 ],
             ];
         }

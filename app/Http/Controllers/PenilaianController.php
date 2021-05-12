@@ -56,7 +56,7 @@ class PenilaianController extends Controller
 
         $satker = SatkerPenilaian::create($validated);
 
-        return redirect('/penilaian/'.$satker->id)->with('message-error', 'Penilaian berhasil dibuat, Silahkan masukkan Item Penilaian');
+        return redirect('/penilaian/'.$satker->id)->with('message-success', 'Penilaian berhasil dibuat, Silahkan masukkan Item Penilaian');
     }
 
     /**
@@ -67,7 +67,7 @@ class PenilaianController extends Controller
     public function show(SatkerPenilaian $penilaian)
     {
         // if not allow redirect with message
-        if (!Gate::allows(Role::PERMISSION_CREATE_PENILAIAN)) {
+        if (!Gate::allows(Role::PERMISSION_SHOW_PENILAIAN)) {
             return redirect('/penilaian')->with('message-error', 'Sorry, access restricted');
         }
 
@@ -76,8 +76,8 @@ class PenilaianController extends Controller
             'item' => Penilaian::getItemPenilaian($penilaian->id),
             'kelengkapan' => Penilaian::getAllKelengkapan(),
             'tingkat' => Penilaian::getAllTingkatKelengkapan(),
-            'grup' => Role::getGrupPenilaian(),
-            'subgrup' => Role::getSubGrupPenilaian(),
+            'grup' => Penilaian::getGrupPenilaian(),
+            'subgrup' => Penilaian::getSubGrupPenilaian(),
         ]);
     }
 
@@ -181,7 +181,6 @@ class PenilaianController extends Controller
         if (!Gate::allows(Role::PERMISSION_EDIT_ITEM_PENILAIAN)) {
             return redirect('/penilaian')->with('message-error', 'Sorry, access restricted');
         }
-
     }
 
     /**
@@ -220,12 +219,12 @@ class PenilaianController extends Controller
 
         $validated = $request->validated();
 
-        $penilaian->nama_unit_kerja = $validated['nama_unit_kerja'];
-        $penilaian->petugas_pendampingan = $validated['petugas_pendampingan'];
+        $item->kelengkapan = $validated['kelengkapan'];
+        $item->tingkat_kelengkapan = $validated['tingkat_kelengkapan'];
 
-        $penilaian->save();
+        $item->save();
 
-        return redirect('/penilaian')->with('message-success', 'Penilaian updated successfully');
+        return redirect('/penilaian/'.$penilaian->id)->with('message-success', 'Status Dokumen berhasil diupdate');
     }
 
     /**

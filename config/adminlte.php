@@ -242,7 +242,7 @@ return [
             'text' => 'Penilaian',
             'url' => 'penilaian',
             'icon' => 'far fa-fw fa-check-square',
-            'can' => [Role::PERMISSION_VIEW_PENILAIAN],
+            'can' => [Role::PERMISSION_VIEW_PENILAIAN, Role::PERMISSION_SHOW_PENILAIAN],
             'active' => ['penilaian', 'penilaian/create', 'regex:@^penilaian/[0-9]+@'],
         ],
     ],

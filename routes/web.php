@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -15,14 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->name('create');
@@ -44,7 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/{penilaian}/item', [PenilaianController::class, 'storeItem'])->name('item.store');
         Route::get('/{penilaian}/item/{item}/edit', [PenilaianController::class, 'editItem'])->name('item.edit');
         Route::put('/{penilaian}/item/{item}/', [PenilaianController::class, 'updateItem'])->name('item.update');
-        Route::get('/{penilaian}/status/{item}/', [PenilaianController::class, 'updateStatus'])->name('status.update');
+        Route::put('/{penilaian}/status/{item}/', [PenilaianController::class, 'updateStatus'])->name('status.update');
         Route::delete('/{penilaian}/item/{item}', [PenilaianController::class, 'destroyItem'])->name('item.destroy');
     });
 });

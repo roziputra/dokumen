@@ -4,7 +4,7 @@
         <option value="">Choose {{ $label }}</option>
         @if ($type ?? null === 'array')
             @foreach ($options as $index => $option)
-                @if (!$loop->first)
+                @if (!$loop->first || $index !== 0)
                 @if ($index == old($name, $value ?? null))
                 <option selected @if (isset($optionGroup)) data-group="{{ $option[$optionGroup] }}" @endif value="{{ $index }}"> {{ $option[$optionValueColumn ?? 'value'] ?? $option}}</option>
                 @else
