@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class UserForm extends FormRequest
@@ -15,7 +17,16 @@ class UserForm extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            $route = $this->route();
+            if ($route->named('profile.update') || $route->named('password.update')) {
+                return true;
+            }
+
+            return Gate::allows(Role::PERMISSION_EDIT_USER);
+        }
+
+        return Gate::allows(Role::PERMISSION_CREATE_USER);
     }
 
     /**
@@ -34,19 +45,19 @@ class UserForm extends FormRequest
                 'string',
                 'max:255',
             ],
-            'username' => [
+            'email' => [
                 'required',
                 'string',
-                'alpha',
+                'email',
                 'max:255',
                 'unique:users,email',
             ],
             'type' => [
-                'required',
+                Rule::requiredIf($route->named('user.*')),
                 Rule::in([User::TYPE_ADMIN, User::TYPE_USER]),
             ],
             'password' => [
-                'required',
+                'nullable',
                 'string',
                 'confirmed',
                 'min:8',
@@ -55,17 +66,29 @@ class UserForm extends FormRequest
 
         // change rule validation for update
         if ($this->isMethod('put') || $this->isMethod('patch')) {
-            $rules['username'] = [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('users', 'email')->ignore($user->id ?? null),
-            ];
-            $rules['password'] = [
-                'nullable',
-                'string',
-                'confirmed',
-                'min:8',
+            $rules = [
+                'name' => [
+                    'required',
+                    'string',
+                    'max:255',
+                ],
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    Rule::unique('users')->ignore($user->id ?? null),
+                ],
+                'type' => [
+                    Rule::requiredIf($route->named('users.*')),
+                    Rule::in([User::TYPE_ADMIN, User::TYPE_USER]),
+                ],
+                'password' => [
+                    'nullable',
+                    'string',
+                    'confirmed',
+                    'min:8',
+                ],
             ];
 
             // change rule validation for update profile
@@ -73,9 +96,10 @@ class UserForm extends FormRequest
                 // get current user
                 $user = $this->user();
 
-                $rules['username'] = [
+                $rules['email'] = [
                     'required',
                     'string',
+                    'email',
                     'max:255',
                     Rule::unique('users')->ignore($user->id),
                 ];

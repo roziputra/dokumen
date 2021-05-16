@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         $id = DB::table('users')->insertGetId([
             'type' => User::TYPE_ADMIN,
             'name' => 'Administrator',
-            'email' => 'admin',
-            'password' => Hash::make('admin'),
+            'email' => 'admin@ult.go.id',
+            'password' => Hash::make('password'),
         ]);
 
         $permissionMapping = Role::getPermissionMapping();

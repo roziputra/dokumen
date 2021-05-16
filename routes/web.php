@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,12 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    //profile
+    Route::get('/user/profile', [UserProfileController::class, 'show'])->name('profile.show');
+    Route::put('/user/update-profile', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::put('/user/password', [UserProfileController::class, 'changePassword'])->name('password.update');
+
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->name('create');

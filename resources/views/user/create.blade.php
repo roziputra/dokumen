@@ -14,7 +14,7 @@
             @csrf
             <div class="card-body">
                 @include('form.input', ['name' => 'name', 'label' => 'Nama Lengkap'])
-                @include('form.input', ['name' => 'username', 'label' => 'Username'])
+                @include('form.input', ['name' => 'email', 'label' => 'Email'])
                 @include('form.select', ['name' => 'type', 'label' => 'User Type', 'options' => $types, 'type' => 'array'])
                 @include('form.input', ['name' => 'password', 'label' => 'Password', 'type' => 'password'])
                 @include('form.input', ['name' => 'password_confirmation', 'label' => 'Confirm Password', 'type' => 'password'])

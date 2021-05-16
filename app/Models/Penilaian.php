@@ -12,12 +12,12 @@ class Penilaian extends Model
 {
     use HasFactory;
 
-    const STATUS_KELENGKAPAN_ADA = 'ada';
-    const STATUS_KELENGKAPAN_TIDAK_ADA = 'tidak-ada';
+    const STATUS_KELENGKAPAN_ADA = 'Ada';
+    const STATUS_KELENGKAPAN_TIDAK_ADA = 'Tidak Ada';
 
-    const STATUS_TINGKAT_KELENGKAPAN_LENGKAP = 'lengkap';
-    const STATUS_TINGKAT_KELENGKAPAN_KURANG_LENGKAP = 'kurang-lengkap';
-    const STATUS_TINGKAT_KELENGKAPAN_TIDAK_LENGKAP = 'tidak-lengkap';
+    const STATUS_TINGKAT_KELENGKAPAN_LENGKAP = 'Lengkap';
+    const STATUS_TINGKAT_KELENGKAPAN_KURANG_LENGKAP = 'Kurang Lengkap';
+    const STATUS_TINGKAT_KELENGKAPAN_TIDAK_LENGKAP = 'Tidak Lengkap';
 
     /**
      * The attributes that are mass assignable.
@@ -161,17 +161,17 @@ class Penilaian extends Model
     public static function getAllKelengkapan(): array
     {
         return [
-            self::STATUS_KELENGKAPAN_ADA => 'Ada',
-            self::STATUS_KELENGKAPAN_TIDAK_ADA => 'Tidak ada',
+            self::STATUS_KELENGKAPAN_ADA,
+            self::STATUS_KELENGKAPAN_TIDAK_ADA,
         ];
     }
 
     public static function getAllTingkatKelengkapan(): array
     {
         return [
-            self::STATUS_TINGKAT_KELENGKAPAN_LENGKAP => 'Ada',
-            self::STATUS_TINGKAT_KELENGKAPAN_KURANG_LENGKAP => 'Kurang Lengkap',
-            self::STATUS_TINGKAT_KELENGKAPAN_TIDAK_LENGKAP => 'Tidak Lengkap',
+            self::STATUS_TINGKAT_KELENGKAPAN_LENGKAP,
+            self::STATUS_TINGKAT_KELENGKAPAN_KURANG_LENGKAP,
+            self::STATUS_TINGKAT_KELENGKAPAN_TIDAK_LENGKAP,
         ];
     }
 

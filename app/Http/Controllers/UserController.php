@@ -56,7 +56,7 @@ class UserController extends Controller
 
         $data = [
             'name' => $validated['name'],
-            'email' => $validated['username'],
+            'email' => $validated['email'],
             'type' => $validated['type'],
             'password' => Hash::make($validated['password']),
         ];
@@ -115,7 +115,7 @@ class UserController extends Controller
         $validated = $request->validated();
 
         $user->name = $validated['name'];
-        $user->email = $validated['username'];
+        $user->email = $validated['email'];
         $user->type = $validated['type'];
 
         if (!is_null($validated['password'])) {

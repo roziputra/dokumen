@@ -68,9 +68,9 @@ return [
     'usermenu_enabled' => true,
     'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
+    'usermenu_image' => true,
     'usermenu_desc' => true,
-    'usermenu_profile_url' => true,
+    'usermenu_profile_url' => 'user/profile',
 
     /*
     |--------------------------------------------------------------------------
@@ -192,9 +192,9 @@ return [
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
-    'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'password_reset_url' => null,
+    'password_email_url' => null,
+    'profile_url' => null,
 
     /*
     |--------------------------------------------------------------------------
