@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/{penilaian}/item/{item}/edit', [PenilaianController::class, 'editItem'])->name('item.edit');
         Route::put('/{penilaian}/item/{item}/', [PenilaianController::class, 'updateItem'])->name('item.update');
         Route::put('/{penilaian}/status/{item}/', [PenilaianController::class, 'updateStatus'])->name('status.update');
+        Route::put('/{penilaian}/kelengkapan/{item}/', [PenilaianController::class, 'updateKelengkapan'])->name('kelengkapan.update');
+        Route::put('/{penilaian}/tingkat/{item}/', [PenilaianController::class, 'updateTingkat'])->name('tingkat.update');
         Route::delete('/{penilaian}/item/{item}', [PenilaianController::class, 'destroyItem'])->name('item.destroy');
     });
 });

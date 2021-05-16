@@ -16,12 +16,13 @@
                     @endcan
                 </div>
                 <div class="card-body">
-                    <table id="table-role" class="table table-condensed table-hover table-striped">
+                    <table id="table-user" class="table table-condensed table-hover table-striped">
                         <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>Nama</th>
                                 <th>Username</th>
+                                <th>Tipe</th>
                                 <th style="width: 120px">Action</th>
                             </tr>
                         </thead>
@@ -31,6 +32,7 @@
                             <td> {{ $loop->iteration }} </td>
                             <td> {{ $row->name }} </td>
                             <td> {{ $row->email }} </td>
+                            <td> <span class="badge @if ($row->type === 'admin') badge-success @endif @if ($row->type === 'user') badge-primary @endif"> {{ $tipe[$row->type] ?? '' }} </span></td>
                             <td>
                                 @can(App\Models\Role::PERMISSION_EDIT_USER)<a href="{{ route('user.edit', $row->id) }}" class="btn btn-sm btn-success" title="Edit User"><i class="far fa-edit"></i></a>@endcan
                                 @can(App\Models\Role::PERMISSION_DELETE_USER)
@@ -47,4 +49,21 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('js')
+    <script type="text/javascript">
+        $(function () {
+            $('#table-user').DataTable({
+                'paging': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                'responsive': true,
+                'lengthChange': true,
+                "pageLength": 50,
+            });
+        });
+    </script>
 @stop

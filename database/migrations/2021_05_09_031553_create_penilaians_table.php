@@ -19,7 +19,8 @@ class CreatePenilaiansTable extends Migration
             $table->foreign('satker_penilaian_id')->references('id')->on('satker_penilaians');
             $table->unsignedBigInteger('grup_penilaian');
             $table->unsignedBigInteger('sub_grup_penilaian');
-            $table->string('judul_penilaian');
+            $table->unsignedBigInteger('item_penilaian_id');
+            $table->string('item_penilaian_judul');
             $table->string('kelengkapan')->nullable();
             $table->string('tingkat_kelengkapan')->nullable();
             $table->string('keterangan')->nullable();

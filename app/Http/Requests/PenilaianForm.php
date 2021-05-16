@@ -62,6 +62,26 @@ class PenilaianForm extends FormRequest
             ];
         }
 
+        if ($route->named('penilaian.kelengkapan.update')) {
+            return [
+                'kelengkapan' => [
+                    'required',
+                    'string',
+                    Rule::in(array_values(Penilaian::getAllKelengkapan())),
+                ],
+            ];
+        }
+
+        if ($route->named('penilaian.tingkat.update')) {
+            return [
+                'tingkat_kelengkapan' => [
+                    'nullable',
+                    'string',
+                    Rule::in(array_values(Penilaian::getAllTingkatKelengkapan())),
+                ],
+            ];
+        }
+
         return [
             'nama_unit_kerja' => [
                 'required',

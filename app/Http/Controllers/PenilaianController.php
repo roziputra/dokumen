@@ -56,7 +56,22 @@ class PenilaianController extends Controller
 
         $satker = SatkerPenilaian::create($validated);
 
-        return redirect('/penilaian/'.$satker->id)->with('message-success', 'Penilaian berhasil dibuat, Silahkan masukkan Item Penilaian');
+        $data = [];
+        foreach (Penilaian::getItemPenilaian() as $index => $item) {
+            if ($index === 0) {
+                continue;
+            }
+            $data[] = [
+                'satker_penilaian_id' => $satker->id,
+                'grup_penilaian' => $item['grup'],
+                'sub_grup_penilaian' => $item['subgrup'],
+                'item_penilaian_id' => $index,
+                'item_penilaian_judul' => $item['judul'],
+            ];
+        }
+        Penilaian::insert($data);
+
+        return redirect('/penilaian/'.$satker->id)->with('message-success', 'Penilaian berhasil dibuat');
     }
 
     /**
@@ -73,7 +88,7 @@ class PenilaianController extends Controller
 
         return view('penilaian.show', [
             'penilaian' => $penilaian,
-            'item' => Penilaian::getItemPenilaian($penilaian->id),
+            'item' => Penilaian::getItemPenilaianSatker($penilaian->id),
             'kelengkapan' => Penilaian::getAllKelengkapan(),
             'tingkat' => Penilaian::getAllTingkatKelengkapan(),
             'grup' => Penilaian::getGrupPenilaian(),
@@ -148,6 +163,7 @@ class PenilaianController extends Controller
         }
 
         $validated = $request->validated();
+
         $validated['satker_penilaian_id'] = $penilaian->id;
 
         Penilaian::create($validated);
@@ -225,6 +241,48 @@ class PenilaianController extends Controller
         $item->save();
 
         return redirect('/penilaian/'.$penilaian->id)->with('message-success', 'Status Dokumen berhasil diupdate');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateKelengkapan(PenilaianForm $request, SatkerPenilaian $penilaian, Penilaian $item)
+    {
+        // if not allow redirect with message
+        if (!Gate::allows(Role::PERMISSION_EDIT_ITEM_PENILAIAN)) {
+            return redirect('/penilaian/')->with('message-error', 'Sorry, access restricted');
+        }
+
+        $validated = $request->validated();
+
+        $item->kelengkapan = $validated['kelengkapan'];
+
+        $item->save();
+
+        return redirect('/penilaian/'.$penilaian->id)->with('message-success', 'Kelengkapan berhasil diupdate');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateTingkat(PenilaianForm $request, SatkerPenilaian $penilaian, Penilaian $item)
+    {
+        // if not allow redirect with message
+        if (!Gate::allows(Role::PERMISSION_EDIT_ITEM_PENILAIAN)) {
+            return redirect('/penilaian/')->with('message-error', 'Sorry, access restricted');
+        }
+
+        $validated = $request->validated();
+
+        $item->tingkat_kelengkapan = $validated['tingkat_kelengkapan'];
+
+        $item->save();
+
+        return redirect('/penilaian/'.$penilaian->id)->with('message-success', 'Kelengkapan berhasil diupdate');
     }
 
     /**

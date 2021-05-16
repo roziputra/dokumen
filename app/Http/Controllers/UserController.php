@@ -22,7 +22,10 @@ class UserController extends Controller
             return redirect('/home')->with('message-error', 'Sorry, access restricted');
         }
 
-        return view('user.index', ['user' => User::all()]);
+        return view('user.index', [
+            'user' => User::all(),
+            'tipe' => User::getAllTypes(),
+        ]);
     }
 
     /**
@@ -129,9 +132,10 @@ class UserController extends Controller
             $permissions = array_map(function () { return true; }, Role::getAdminPermissionMapping());
         }
 
-        $role = Role::where('user_id', $user->id)->first();
-        $role->permissions = json_encode($permissions);
-        $role->save();
+        $role = Role::updateOrInsert(
+             ['user_id' => $user->id],
+             ['permissions' => json_encode($permissions)],
+        );
 
         return redirect('/user')->with('message-success', 'User updated successfully');
     }
@@ -147,6 +151,9 @@ class UserController extends Controller
         if (!Gate::allows(Role::PERMISSION_DELETE_USER)) {
             return redirect('/user')->with('message-error', 'Sorry, access restricted');
         }
+
+        $role = Role::where('user_id', $user->id);
+        $role->delete();
 
         $user->delete();
 
